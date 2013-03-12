@@ -7,7 +7,7 @@
 	<property name="build" location="build"/>
 	<property name="dist"  location="build/CUE"/>
 	<property name="filename" value="CUE-template"/>
-	<property name="version" value="3.1"/>
+	<property name="version" value="3.2"/>
 
 	<tstamp/>
 
@@ -37,12 +37,33 @@
 			<arg value="${build}/qg.css"/>
 			<arg value="${build}/qg-combined.css"/>
 		</java>
+
+		<!-- Combine video css assets -->
+		<echo message="combine CUE video stylesheets"/>
+		<concat destfile="${build}/qg-video-combined.css">
+			<filelist dir="${src}/cue/css" files="jquery-ui-1.8.2.core.widget.mouse.slider.css,qg-video.css"/>
+		</concat>
+
+		<!-- Minify CUE video stylesheet -->
+		<echo message="compress CUE stylesheet"/>
+		<java jar="lib/yuicompressor-2.4.2.jar" fork="true" failonerror="true">
+			<arg value="-o"/>
+			<arg value="${build}/qg-video.css"/>
+			<arg value="${build}/qg-video-combined.css"/>
+		</java>
+
+		<!-- Combine IE css assets -->
+		<echo message="combine IE stylesheets"/>
+		<concat destfile="${build}/qg-ie-combined.css">
+			<filelist dir="${src}/cue/css" files="qg-ie.css,qg-video-ie.css"/>
+		</concat>
+
 		<!-- Minify IE stylesheet -->
 		<echo message="compress IE stylesheet"/>
 		<java jar="lib/yuicompressor-2.4.2.jar" fork="true" failonerror="true">
 			<arg value="-o"/>
 			<arg value="${build}/qg-ie.css"/>
-			<arg value="${src}/cue/css/qg-ie.css"/>
+			<arg value="${build}/qg-ie-combined.css"/>
 		</java>
 
 		<copy file="${src}/cue/css/layout-small.css" todir="${build}"/>
@@ -71,7 +92,27 @@
 			<arg value="--charset"/>
 			<arg value="utf-8"/>
 		</java>
-		
+
+		<!-- Combine video script assets -->
+		<echo message="combine CUE video scripts"/>
+		<concat encoding="UTF-8" outputencoding="UTF-8" destfile="${build}/qg-video-combined.js">
+			<filelist dir="${src}/cue/js" files="lib/adobe.detect-flash.js,lib/jquery-ui-1.8.2.core.widget.mouse.slider.js,qg-video.js"/>
+			<filterchain>
+				<!-- UTF8 Byte Order Marks cause problems, remove them -->
+				<deletecharacters chars="&#xFEFF;" />
+			</filterchain>
+		</concat>
+
+		<!-- Minify CUE video script -->
+		<echo message="compress CUE video javascript"/>
+		<java jar="lib/yuicompressor-2.4.2.jar" fork="true" failonerror="true">
+			<arg value="-o"/>
+			<arg value="${build}/qg-video.js"/>
+			<arg value="${build}/qg-video-combined.js"/>
+			<arg value="--charset"/>
+			<arg value="utf-8"/>
+		</java>
+
 		<!-- Combine IE layout script assets -->
 		<concat encoding="UTF-8" outputencoding="UTF-8" destfile="${build}/ie-layout-combined.js">
 			<filelist dir="${src}/cue/js" files="jquery.resize-events.js,jquery.transformer-layout.js,pxToEm.js"/>
@@ -126,12 +167,38 @@
 		<copy file="${src}/cue/images/qg-coa.png" todir="${todir}/cue/images"/>
 		<copy file="${src}/cue/images/qg-coa-ie6.png" todir="${todir}/cue/images"/>
 		<copy file="${src}/cue/images/qg-coa-print.png" todir="${todir}/cue/images"/>
+		<copy file="${src}/cue/images/qg-tagline-footer.png" todir="${todir}/cue/images"/>
 		<copy file="${src}/cue/images/favicon.ico" todir="${todir}/cue/images"/>
 		<copy file="${src}/cue/images/minus-flat.png" todir="${todir}/cue/images"/>
 		<copy file="${src}/cue/images/plus-flat.png" todir="${todir}/cue/images"/>
 		<copy file="${src}/cue/images/displacement.png" todir="${todir}/cue/images"/>
 
+		<!-- video files -->
+		<copy todir="${todir}/cue/images/video">
+			<filelist dir="${src}/cue/images/video" files="
+			 displacement.png
+			 minus-flat.png
+			 plus-flat.png
+			 video-control-separator.png
+			 video-controls-bg.png
+			 video-download-separator.png
+			 video-options-bg.png
+			 video-progress-bg.png
+			 video-progress-loading-bg.png
+			 video-progress-playing-bg.png
+			 video-scrubber-horiz-alpha-trans.png
+			 video-scrubber-horiz-index-trans.png
+			 video-scrubber-vert-alpha-trans.png
+			 video-scrubber-vert-index-trans.png
+			 video-share-bg-hover.png
+			 video-share-bg.png
+			 video-transcript-bg.png
+			 video-ui-sprites.png
+			"/>
+		</copy>
+
 		<copy file="${build}/qg.css" todir="${todir}/cue/css"/>
+		<copy file="${build}/qg-video.css" todir="${todir}/cue/css"/>
 		<copy file="${build}/qg-ie.css" todir="${todir}/cue/css"/>
 		<copy file="${build}/layout-small.css" todir="${todir}/cue/css"/>
 		<copy file="${build}/layout-medium.css" todir="${todir}/cue/css"/>
@@ -139,6 +206,7 @@
 
 		<copy file="${build}/qg.js" todir="${todir}/cue/js"/>
 		<copy file="${build}/ie-layout.js" todir="${todir}/cue/js"/>
+		<copy file="${build}/qg-video.js" todir="${todir}/cue/js"/>
 	</target>
 
 

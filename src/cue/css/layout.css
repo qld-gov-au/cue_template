@@ -320,6 +320,11 @@
 	#site-name img.print-version {
 		display: block;
 	}
+	#qg-coa img.print-version {
+		display: block;
+		height: 27mm;
+		margin-left: 155mm;
+	}
 	
 	
 	/* Show legal information */

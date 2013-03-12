@@ -19,7 +19,7 @@ if (typeof jQuery != 'undefined') { /* Start if jQuery exists */
 		contentEl.css('height', 'auto');
 		
 		// detect 'large' layout
-			if ($('.aside:first').offset().top > contentEl.offset().top) {
+			if ($('.aside:first').length && $('.aside:first').offset().top > contentEl.offset().top) {
 				// we are not in 'large' layout, just return
 				return;
 			}

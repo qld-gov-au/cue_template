@@ -98,7 +98,7 @@ Tester.use('console', 'test', function(Y) {
 			var coa = $('#qg-coa');
 			Assert.areSame(12, coa.attr('offsetTop'), 'coa is not 12px from top');
 			// TODO if max-width in play, 5px from the left; otherwise 5px + .7em.
-			Assert.areSame((0.7 * EM) + 5, coa.attr('offsetLeft') - X_ORIGIN, 'coa is not 1em+5px from left');
+			Assert.areSame((0.7 * EM) + 5, coa.attr('offsetLeft') - X_ORIGIN, 'coa is not 0.7em+5px from left');
 		}
 
 	}));

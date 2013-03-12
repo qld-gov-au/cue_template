@@ -34,7 +34,7 @@ Tester.use('console', 'test', function(Y) {
 			Assert.areSame(1, footerContents.filter('h2').length, 'expected 1 h2');
 			Assert.areSame(1, footerContents.filter('ul').length, 'expected 1 list');
 			Assert.areSame(8, footerContents.filter('a').length, 'expected 8 links');
-			Assert.areSame(2, footerContents.filter('p').length, 'expected 2 paragraphs');
+			Assert.areSame(3, footerContents.filter('p').length, 'expected 3 paragraphs');
 		},
 
 		'fat footer should have H2 heading': function() {
@@ -76,6 +76,12 @@ Tester.use('console', 'test', function(Y) {
 			Assert.areSame(1, qgLink.length);
 			Assert.areSame('Queensland Government', qgLink.text());
 			Assert.areSame('1', qgLink.attr('accesskey'));
+		},
+
+		'footer should contain a Queensland Government tagline': function() {
+			var qgTagline = $('#footer #qg-branding');
+			Assert.areSame(1, qgTagline.length);
+			Assert.areSame('Great state. Great opportunity.', qgTagline.find('img').attr('alt'));
 		}
 
 	}));
